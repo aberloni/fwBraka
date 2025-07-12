@@ -4,11 +4,24 @@ using UnityEngine;
 
 namespace fwp.braka
 {
-
-	public interface Brain
+	public interface iBrain
 	{
-		public TKappa getKappa<TKappa>() where TKappa : Kappa;
+
+	}
+
+	public interface iBrainKappable : iBrain
+	{
+		public TKappa getKappa<TKappa>() where TKappa : iKappa;
 		public void updateKappas(float dt);
+		public void updateLateKappas(float dt);
+	}
+
+	/// <summary>
+	/// object compatible with brain
+	/// </summary>
+	public interface iBrainLimb
+	{
+		public BrainBase getBrain();
 	}
 
 }

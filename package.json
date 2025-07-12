@@ -16,5 +16,9 @@
     "email": "dev@andreberlemont.com",
     "url": "http://www.andreberlemont.com"
   },
-  "type": "library"
+  "type": "library",
+  "dependencies":
+  {
+    "com.ab.fwp.gamepad":"0.3.6"
+  }
 }

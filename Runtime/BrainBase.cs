@@ -5,12 +5,10 @@ using UnityEngine;
 namespace fwp.braka
 {
 	using System;
-	using fwp.gamepad;
+	
 
-	abstract public class BrainBase : MonoUpdate, Brain
+	abstract public class BrainBase : MonoPresence, iBrain
 	{
-		public GamepadWatcher watcher;
-
 		[Header("pivots")]
 		public Transform pivot; // local transform
 		public Transform pivotEye; // transform looking at POI
@@ -19,7 +17,7 @@ namespace fwp.braka
 		/// <summary>
 		/// list of all kappa linked to this brain
 		/// </summary>
-		protected Dictionary<Type, Kappa> kappas = null;
+		protected Dictionary<Type, iKappa> kappas = null;
 
 		/// <summary>
 		/// wrapper to manage anything visual
@@ -38,7 +36,7 @@ namespace fwp.braka
 
 			pivot = transform;
 
-			kappas = new Dictionary<Type, Kappa>();
+			kappas = new Dictionary<Type, iKappa>();
 		}
 
 		override protected void setup()
@@ -50,14 +48,6 @@ namespace fwp.braka
 			prime();
 
 			materialize();
-		}
-
-		virtual protected void materialize()
-		{
-		}
-
-		virtual protected void dematerialize()
-		{
 		}
 
 		protected override void destroy()
@@ -99,11 +89,9 @@ namespace fwp.braka
 			}
 		}
 
-		protected override void update()
+		protected override void update(float dt)
 		{
-			base.update();
-
-			updateKappas(Time.deltaTime);
+			updateKappas(dt);
 		}
 
 		public void updateKappas(float dt)
@@ -115,13 +103,13 @@ namespace fwp.braka
 			}
 		}
 
-		public Kappa addKappa(Type t)
+		public iKappa addKappa(Type t)
 		{
-			Kappa ret = default(Kappa);
+			iKappa ret = default(iKappa);
 
 			if (!kappas.ContainsKey(t))
 			{
-				ret = Activator.CreateInstance(t) as Kappa;
+				ret = Activator.CreateInstance(t) as iKappa;
 
 				kappas.Add(t, ret);
 
@@ -131,7 +119,7 @@ namespace fwp.braka
 			return ret;
 		}
 
-		public Kappa addKappa(Kappa k)
+		public iKappa addKappa(iKappa k)
 		{
 			if (!kappas.ContainsKey(k.GetType()))
 			{
@@ -143,7 +131,7 @@ namespace fwp.braka
 			return k;
 		}
 
-		public TKappa getKappa<TKappa>() where TKappa : Kappa
+		public TKappa getKappa<TKappa>() where TKappa : iKappa
 		{
 			var t = typeof(TKappa);
 			if (!kappas.ContainsKey(t))
@@ -154,24 +142,7 @@ namespace fwp.braka
 		}
 
 		virtual public bool isSelectable() => false;
-
-		public bool isSelected() => watcher != null;
-
-		void OnDrawGizmosSelected()
-		{
-			if (kappas != null)
-			{
-				// /! some are not kappa but kappamono
-
-				foreach (var kp in kappas)
-				{
-
-					BWKappa bwk = kp.Value as BWKappa;
-					bwk?.drawGizmos();
-				}
-			}
-		}
-
+		virtual public bool isSelected() => false;
 
 	}
 

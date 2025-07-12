@@ -4,7 +4,7 @@ using UnityEngine;
 
 using System;
 
-namespace fwp.braka
+namespace fwp.braka.ex
 {
 
 	public class KappaAppearance : KappaMono

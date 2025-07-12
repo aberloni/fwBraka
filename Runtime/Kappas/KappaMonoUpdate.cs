@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace fwp.braka
 {
-	public class KappaMonoUpdate : MonoUpdate, iKappa
+	public class KappaMonoUpdate : Mono, iKappa
 	{
 		public BrainBase brain;
 
-		virtual public iKappa assoc(Brain owner)
+		virtual public iKappa assoc(iBrain owner)
 		{
 			brain = owner as BrainBase;
 			return this;

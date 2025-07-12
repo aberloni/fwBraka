@@ -4,28 +4,30 @@ using UnityEngine;
 
 namespace fwp.braka
 {
+	/// <summary>
+	/// a kappa attached in a brain hierarchy
+	/// </summary>
+	public class KappaMono : Mono, iKappa
+	{
+		public BrainBase brain;
 
-    public class KappaMono : Mono, Kappa
-    {
-        public BrainBase brain;
+		virtual public iKappa assoc(iBrain owner)
+		{
+			brain = owner as BrainBase;
+			return this;
+		}
 
-        virtual public Kappa assoc(Brain owner)
-        {
-            brain = owner as BrainBase;
-            return this;
-        }
+		virtual public iKappa prime()
+		{
+			return this;
+		}
 
-        virtual public Kappa prime()
-        {
-            return this;
-        }
+		public void update(float dt)
+		{
+			updateKappa(dt);
+		}
 
-        public void update(float dt)
-        {
-            updateKappa(dt);
-        }
-
-        virtual protected void updateKappa(float dt)
-        { }
-    }
+		virtual protected void updateKappa(float dt)
+		{ }
+	}
 }

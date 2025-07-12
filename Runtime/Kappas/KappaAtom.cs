@@ -1,18 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 namespace fwp.braka
 {
 
-	abstract public class KappaAtom : iKappa
+	abstract public class KappaAtom : iKappa, iKappaDebug
 	{
-		public BrainBase brain;
+		public iBrain brain;
+		public BrainBase bBrain => brain as BrainBase;
 
-		public Transform pivotBody => brain.pivotBody; // appearance tr
-		public Transform pivot => brain.pivot; // brain tr
+		virtual public Transform pivotBody => bBrain.pivotBody; // appearance tr
+		virtual public Transform pivot => bBrain.pivot; // brain tr
 
-		public iKappa assoc(Brain owner)
+		public iKappa assoc(iBrain owner)
 		{
 			this.brain = owner as BrainBase;
 			reactAssoc();
@@ -36,9 +36,10 @@ namespace fwp.braka
 			return this;
 		}
 
-		abstract public void update(float dt);
+		virtual public void update(float dt)
+		{ }
 
-		public bool isOwned(BWBrainBase other)
+		public bool isOwned(iBrain other)
 		{
 			return brain == other;
 		}
@@ -46,17 +47,26 @@ namespace fwp.braka
 		virtual public void drawGizmos()
 		{ }
 
-		public void log(string msg, object tar = null) => brain.log(msg, tar);
-		public void logw(string msg, object tar = null) => brain.log(msg, tar);
-
-		virtual public string stringify()
+		StringBuilder _stringify = new();
+		public string stringify()
 		{
-			if (brain != null) ret += " +brain:" + brain.name;
-			else ret += " -brain";
+			_stringify.Clear();
+			_stringify.Append(GetIdentity());
+			
+			doStringify();
 
-			if (!brain.enabled) ret += " -enabled";
-
-			return ret;
+			return _stringify.ToString();
 		}
+
+		virtual protected void doStringify()
+		{
+			if (bBrain != null) _stringify.Append(" +brain:" + bBrain.name);
+			else _stringify.Append(" -brain");
+
+			if (!bBrain.enabled) _stringify.Append(" -enabled");
+		}
+
+		public bool IsVerbose(iLogger.LogLevel lvl) => bBrain.isVerbose(lvl);
+		public string GetIdentity() => GetType() + ":" + bBrain.name;
 	}
 }

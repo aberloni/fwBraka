@@ -10,7 +10,7 @@ namespace fwp.braka
 		/// <summary>
 		/// assoc kappa to a brain
 		/// </summary>
-		public iKappa assoc(Brain owner);
+		public iKappa assoc(iBrain owner);
 
 		/// <summary>
 		/// setup stuff after all kappas are assocs
@@ -18,9 +18,20 @@ namespace fwp.braka
 		public iKappa prime();
 
 		/// <summary>
-		/// to be called externally
+		/// to be called externally by parent brain
 		/// </summary>
 		public void update(float dt);
+	}
+
+	public interface iKappaUpdate : iKappa
+	{
+		public iKappa setActivity(bool activate);
+
+	}
+
+	public interface iKappaDebug : iDebug, iLogger
+	{
+		public void drawGizmos();
 	}
 
 }
