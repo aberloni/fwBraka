@@ -1,15 +1,15 @@
 {
   "name": "com.ab.fwp.braka",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "displayName": "ab:braka",
   "description": "framework brain & kappas",
   "keywords": [
-    "composition"
+    "tools"
   ],
-  "category": "scaffolding",
+  "category": "tools",
   "repository": {
     "url": "https://github.com/aberloni/fwBraka",
-    "type": "git",
+    "type": "git"
   },
   "author": {
     "name": "Andrei Berloni",
