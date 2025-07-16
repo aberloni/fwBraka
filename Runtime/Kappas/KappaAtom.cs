@@ -66,7 +66,7 @@ namespace fwp.braka
 			if (!bBrain.enabled) _stringify.Append(" -enabled");
 		}
 
-		public bool IsVerbose(iLogger.LogLevel lvl) => bBrain.isVerbose(lvl);
+		public bool IsVerbose(iLogger.LogLevel lvl) => bBrain.IsVerbose(lvl);
 		public string GetIdentity() => GetType() + ":" + bBrain.name;
 	}
 }

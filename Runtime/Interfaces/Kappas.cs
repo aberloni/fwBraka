@@ -17,16 +17,21 @@ namespace fwp.braka
 		/// </summary>
 		public iKappa prime();
 
-		/// <summary>
-		/// to be called externally by parent brain
-		/// </summary>
-		public void update(float dt);
 	}
 
 	public interface iKappaUpdate : iKappa
 	{
-		public iKappa setActivity(bool activate);
+		/// <summary>
+		/// to be called externally by parent brain
+		/// </summary>
+		public void update(float dt);
 
+		public void updateLate(float dt);
+	}
+
+	public interface iKappaActivity : iKappaUpdate
+	{
+		public iKappaActivity setActivity(bool activate);
 	}
 
 	public interface iKappaDebug : iDebug, iLogger

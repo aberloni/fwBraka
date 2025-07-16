@@ -28,7 +28,7 @@ namespace fwp.braka
 		{
 			base.build();
 
-			kappas = new Dictionary<Type, IKappa>();
+			kappas = new Dictionary<Type, iKappa>();
 		}
 
 		override protected void setup()
@@ -36,13 +36,6 @@ namespace fwp.braka
 			base.setup();
 
 			setupKaps();
-		}
-
-		protected override void setupLate()
-		{
-			base.setupLate();
-
-			prime();
 		}
 
 		/// <summary>
@@ -71,8 +64,10 @@ namespace fwp.braka
 		/// entry point to reset element
 		/// </summary>
 		[ContextMenu("prime")]
-		virtual public void prime()
+		override public void prime()
 		{
+			base.prime();
+
 			if (kappas.Count <= 0)
 			{
 				Debug.LogWarning("no kappas to prime ?");
@@ -118,7 +113,7 @@ namespace fwp.braka
 			return k;
 		}
 
-		public TKappa getKappa<TKappa>(bool verbose = false) where TKappa : iKappa
+		public TKappa getKappa<TKappa>() where TKappa : iKappa
 		{
 			if (kappas != null)
 			{
@@ -127,15 +122,6 @@ namespace fwp.braka
 				{
 					if (t.IsAssignableFrom(k.Key))
 						return (TKappa)k.Value;
-				}
-			}
-
-			if (verbose)
-			{
-				Debug.LogWarning("@" + this + " couldn't locate <" + typeof(TKappa) + ">", this);
-				if(kappas != null)
-				{
-					foreach (var k in kappas) Debug.Log(k.Key + " => " + k.Value);
 				}
 			}
 
@@ -162,7 +148,7 @@ namespace fwp.braka
 		{
 			foreach (var kp in kappas)
 			{
-				if (kp.Value is IKappaUpdate iku) iku.update(dt);
+				if (kp.Value is iKappaUpdate iku) iku.update(dt);
 			}
 		}
 
@@ -170,24 +156,29 @@ namespace fwp.braka
 		{
 			foreach (var kp in kappas)
 			{
-				if (kp.Value is IKappaUpdate iku) iku.updateLate(dt);
+				if (kp.Value is iKappaUpdate iku) iku.updateLate(dt);
 			}
 		}
 
-		public iKappaUpdate setKappaActivity<T>(bool whitelist) where T : iKappaUpdate
+		public iKappaActivity setKappaActivity<T>(bool whitelist) where T : iKappaActivity
 		{
-			return getKappa<T>().setActivity(whitelist);
+			iKappaActivity kup = getKappa<T>();
+			if(kup != null) return kup.setActivity(whitelist);
+			return null;
 		}
 
 		public void setKappasActivity(Type[] whitelist, Type[] blacklist)
 		{
 			foreach (var k in kappas)
 			{
+				var ka = k.Value as iKappaActivity;
+				if (ka == null) continue;
+
 				foreach (var t in whitelist)
 				{
 					if (t.GetType().IsAssignableFrom(k.GetType()))
 					{
-						k.Value.setActivity(true);
+						ka.setActivity(true);
 					}
 				}
 
@@ -195,7 +186,7 @@ namespace fwp.braka
 				{
 					if (t.GetType().IsAssignableFrom(k.GetType()))
 					{
-						k.Value.setActivity(false);
+						ka.setActivity(false);
 					}
 				}
 			}
@@ -209,8 +200,7 @@ namespace fwp.braka
 
 				foreach (var kp in kappas)
 				{
-
-					KappaBase bwk = kp.Value as KappaBase;
+					var bwk = kp.Value as iKappaDebug;
 					bwk?.drawGizmos();
 				}
 			}
@@ -224,7 +214,7 @@ namespace fwp.braka
 			{
 				foreach (var kp in kappas)
 				{
-					KappaBase kb = kp.Value as KappaBase;
+					var kb = kp.Value as iKappaDebug;
 
 					if (kb != null) ret += "\n" + kb.stringify();
 					else ret += "\n" + kp.Key.GetType();

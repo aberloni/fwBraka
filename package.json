@@ -19,6 +19,7 @@
   "type": "library",
   "dependencies":
   {
-    "com.ab.fwp.gamepad":"0.3.6"
+    "com.ab.fwp.gamepad":"https://github.com/aberloni/fwGamepad.git#a9edb58c0a7793cffe40f48abd6517988e2e4f69",
+    "com.ab.fwp.appendix":"https://github.com/Legogo/fwAppendix.git#9e8d12ce3fc0b42f42fb639ab2fc750ddc1eeb5c"
   }
 }

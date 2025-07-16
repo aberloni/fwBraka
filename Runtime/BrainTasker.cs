@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace fwp.braka
 {
+	using fwp.gamepad;
+
 	public class BrainTasker : BrainKappable, iTasker
 	{
 		List<iTask> tasks = new List<iTask>(); // blocker

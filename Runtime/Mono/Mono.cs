@@ -21,7 +21,8 @@ namespace fwp.braka
 		/// <summary>
 		/// can override to add some verbosity filter
 		/// </summary>
-		virtual public bool isVerbose(iLogger.LogLevel lvl) => verbosity >= lvl;
+		virtual public bool IsVerbose(iLogger.LogLevel lvl) => verbosity >= lvl;
+		public string GetIdentity() => name;
 
 		Transform _tr;
 		public Transform tr => _tr;

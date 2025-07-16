@@ -13,8 +13,10 @@ namespace fwp.braka
 	{
 		protected BrainKappable owner;
 
-		List<iKappa> blacklist = new List<iKappa>();
-		List<iKappa> mastering = new List<iKappa>();
+		/// <summary>
+		/// kappas blocked by this chore
+		/// </summary>
+		List<iKappaActivity> blacklist = new List<iKappaActivity>();
 
 		public ChoreKappas(BrainKappable brain) : base()
 		{
@@ -44,20 +46,7 @@ namespace fwp.braka
         }
         */
 
-		/// <summary>
-		/// T target kappa
-		/// </summary>
-		public T optinSetMaster<T>() where T : iKappa
-		{
-			T tar = owner.getKappa<T>();
-			mastering.Add(tar);
-
-			tar.lockmaster.Add(this);
-
-			return tar;
-		}
-
-		public T optinBlacklist<T>() where T : iKappa
+		public T optinBlacklist<T>() where T : iKappaActivity
 		{
 			T tar = (T)owner.setKappaActivity<T>(false); // enabled = false
 			blacklist.Add(tar);
@@ -68,11 +57,6 @@ namespace fwp.braka
 		{
 			base.Clear();
 
-			foreach (var m in mastering)
-			{
-				m.lockmaster.Remove(this);
-			}
-
 			foreach (var b in blacklist)
 			{
 				b.setActivity(true);
@@ -80,8 +64,6 @@ namespace fwp.braka
 
 			blacklist.Clear();
 			blacklist = null;
-			mastering.Clear();
-			mastering = null;
 		}
 
 	}

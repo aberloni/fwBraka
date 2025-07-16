@@ -41,7 +41,7 @@ namespace fwp.braka
 
 		static public void logw(iLogger owner, string content, object target = null)
 		{
-			if (!owner.isVerbose(iLogger.LogLevel.verbose)) return;
+			if (!owner.IsVerbose(iLogger.LogLevel.verbose)) return;
 			if (target == null) target = owner;
 			Debug.LogWarning(stamp(owner) + content, target as Object);
 		}
@@ -51,7 +51,7 @@ namespace fwp.braka
 		/// </summary>
 		static public void log(iLogger owner, string content, object target = null)
 		{
-			if (!owner.isVerbose(iLogger.LogLevel.verbose)) return;
+			if (!owner.IsVerbose(iLogger.LogLevel.verbose)) return;
 			if (target == null) target = owner;
 			Debug.Log(stamp(owner) + content, target as Object);
 		}
@@ -61,13 +61,13 @@ namespace fwp.braka
 		/// </summary>
 		static public void logChatty(iLogger owner, string content, object target = null)
 		{
-			if (!owner.isVerbose(iLogger.LogLevel.deep)) return;
+			if (!owner.IsVerbose(iLogger.LogLevel.deep)) return;
 			log(owner, content, target);
 		}
 
 		static public string stamp(iLogger log)
 		{
-			return stampPrefix() + separator + log.identity() + separator;
+			return stampPrefix() + separator + log.GetIdentity() + separator;
 		}
 
 	}
