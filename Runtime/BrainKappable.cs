@@ -13,9 +13,6 @@ namespace fwp.braka
 
 		protected Dictionary<Type, iKappa> kappas = null;
 
-		[Header("params")]
-		public KappaAppearance appearance;
-
 		/// <summary>
 		/// default atom kappa to instantiate
 		/// </summary>

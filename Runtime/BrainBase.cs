@@ -21,12 +21,7 @@ namespace fwp.braka
 		/// </summary>
 		[Header("params")]
 		public KappaAppearance appearance;
-
-		virtual public List<Type> kappaDependencies() => new List<Type>
-		{
-			//typeof(KappaMove),
-		};
-
+		
 		protected override void build()
 		{
 			base.build();
